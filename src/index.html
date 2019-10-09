@@ -904,6 +904,11 @@
                 </div>
                 <hr>
                 <div class="input-wrap">
+                  <input id="control-link-item-shadow-show" class="control-link-item-shadow-show" type="checkbox" tabindex="-1">
+                  <label for="control-link-item-shadow-show">Tile shadow</label>
+                </div>
+                <hr>
+                <div class="input-wrap">
                   <input id="control-link-item-hoverscale" class="control-link-item-hoverscale" type="checkbox" tabindex="-1">
                   <label for="control-link-item-hoverscale">Grow on tile hover</label>
                 </div>
@@ -912,6 +917,17 @@
                   <input id="control-link-newtab" class="control-link-newtab" type="checkbox" tabindex="-1">
                   <label for="control-link-newtab">Open Bookmarks in a new tab</label>
                 </div>
+              </div>
+            </div>
+          </div>
+          <div class="menu-item">
+            <div class="menu-item-header">
+              <h1 class="menu-item-header-text">Border</h1>
+            </div>
+            <div class="menu-item-form">
+              <div class="input-wrap">
+                <label for="control-link-item-border">All sides</label>
+                <input id="control-link-item-border" class="control-link-item-border mb-0" type="range" min="0" max="40" value="0" tabindex="-1">
               </div>
             </div>
           </div>
@@ -930,6 +946,22 @@
                 <label for="control-link-style-list">List</label>
               </div>
               <p class="control-link-style-list-helper form-helper small">Bookmark tiles more short and wide with content stacked horizontally.</p>
+            </div>
+          </div>
+          <div class="menu-item">
+            <div class="menu-item-header">
+              <h1 class="menu-item-header-text">Orientation</h1>
+            </div>
+            <div class="menu-item-form">
+              <div class="input-wrap">
+                <input id="control-link-orientation-top" class="control-link-orientation-top" type="radio" name="control-link-orientation" value="top" tabindex="-1">
+                <label for="control-link-orientation-top">Top</label>
+              </div>
+              <div class="input-wrap">
+                <input id="control-link-orientation-bottom" class="control-link-orientation-bottom" type="radio" name="control-link-orientation" value="bottom" tabindex="-1">
+                <label for="control-link-orientation-bottom">Bottom</label>
+              </div>
+              <p class="control-link-orientation-helper form-helper small">Display the URL and Controls either at the top of bottom of a Tile.</p>
             </div>
           </div>
           <div class="menu-item">
@@ -972,7 +1004,7 @@
               <label for="control-theme-accent-current-picker">Colour</label>
               <div class="input-wrap"><div class="form-group mb-0">
                   <input id="control-theme-accent-current-picker" class="form-group-item-half control-theme-accent-current-picker mb-0" type="color" value="#000000" tabindex="1">
-                  <input id="control-theme-accent-current-hex" class="form-group-item-half control-theme-accent-current-hex mb-0" type="text" placeholder="Hex code" value="#000000" tabindex="1" maxlength="7">
+                  <input id="control-theme-accent-current-hex" class="form-group-item-half control-theme-accent-current-hex mb-0" type="text" placeholder="Hex code" value="#000000" tabindex="1" maxlength="7" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
                 </div>
               </div>
               <p class="control-theme-style-light-helper form-helper small">Accent Colour can also be changed from the Header area.</p>
@@ -1051,7 +1083,10 @@
               </div>
               <div class="form-indent">
                 <div class="input-wrap">
-                  <input id="control-background-color-custom-current" class="control-background-color-custom-current mb-0" type="color" tabindex="1">
+                  <div class="form-group mb-0">
+                    <input id="control-background-color-custom-current-picker" class="form-group-item-half control-background-color-custom-current-picker mb-0" type="color" value="#000000" tabindex="1">
+                    <input id="control-background-color-custom-current-hex" class="form-group-item-half control-background-color-custom-current-hex mb-0" type="text" placeholder="Hex code" value="#000000" tabindex="1" maxlength="7" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+                  </div>
                 </div>
                 <p class="control-background-color-theme-helper form-helper small">Take care as some colours may make the Clock, Date and other text unreadable.</p>
               </div>
@@ -1091,8 +1126,10 @@
                 </div>
                 <div class="form-indent">
                   <div class="input-wrap">
-                    <input id="control-background-image-url" class="control-background-image-url" type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="https://" tabindex="-1">
+                    <textarea id="control-background-image-url" class="control-background-image-url mb-0" spellcheck="false" placeholder="https://..." tabindex="-1"></textarea>
                   </div>
+                  <p class="control-background-image-url-helper form-helper small">If adding more than one URL separate them by spaces or on new lines. If more than one is entered a random background image will be used on load.</p>
+                  <hr>
                   <p class="control-background-image-url-helper form-helper small">Unsplash can be used for random images, eg:</p>
                   <p class="control-background-image-url-helper form-helper small"><i>https://source.unsplash.com/random/1920x1080/?night,day,sky</i></p>
                   <p class="control-background-image-url-helper form-helper small">Change parameters after <i>.../ramdom/</i> for more options. Loading times may vary.</p>

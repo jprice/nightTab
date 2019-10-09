@@ -69,10 +69,13 @@ var background = (function() {
 
   var render = {};
 
-  render.color = function() {
-    var html = helper.e("html");
-    html.style.backgroundColor = "rgb(" + state.get().background.color.custom.r + ", " + state.get().background.color.custom.g + ", " + state.get().background.color.custom.b + ")";
-    html.style.setProperty("--background-color-custom", state.get().background.color.custom.r + ", " + state.get().background.color.custom.g + ", " + state.get().background.color.custom.b);
+  render.color = {
+    custom: function() {
+      helper.e("html").style.setProperty("--background-color-custom", state.get().background.color.custom.r + ", " + state.get().background.color.custom.g + ", " + state.get().background.color.custom.b);
+    },
+    clearHTML: function() {
+      helper.e("html").style.backgroundColor = "";
+    }
   };
 
   render.image = function() {
@@ -81,7 +84,13 @@ var background = (function() {
       if (state.get().background.image.from == "file") {
         html.style.setProperty("--background-image", "url(" + state.get().background.image.file.data + ")");
       } else if (state.get().background.image.from == "url") {
-        html.style.setProperty("--background-image", "url(" + state.get().background.image.url + ")");
+        if (/\s+/g.test(state.get().background.image.url)) {
+          var allUrls = state.get().background.image.url.split(/\s+/);
+          var randomUrl = allUrls[Math.floor(Math.random() * allUrls.length)];
+          html.style.setProperty("--background-image", "url(" + randomUrl + ")");
+        } else {
+          html.style.setProperty("--background-image", "url(" + state.get().background.image.url + ")");
+        };
       };
     } else {
       html.style.setProperty("--background-image", "url()");
@@ -115,8 +124,13 @@ var background = (function() {
 
   render.input = {
     clear: function() {
-      var input = helper.e(".control-background-image-file");
-      input.value = "";
+      helper.e(".control-background-image-file").value = "";
+    },
+    picker: function() {
+      helper.e(".control-background-color-custom-current-picker").value = helper.rgbToHex(state.get().background.color.custom);
+    },
+    hex: function() {
+      helper.e(".control-background-color-custom-current-hex").value = helper.rgbToHex(state.get().background.color.custom);
     }
   };
 
@@ -215,7 +229,8 @@ var background = (function() {
   };
 
   var init = function() {
-    render.color();
+    render.color.clearHTML();
+    render.color.custom();
     render.image();
     render.blur();
     render.grayscale();

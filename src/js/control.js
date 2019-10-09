@@ -1948,6 +1948,13 @@ var control = (function() {
       render.class();
     }
   }, {
+    element: helper.e(".control-link-item-shadow-show"),
+    path: "link.item.shadow.show",
+    type: "checkbox",
+    func: function() {
+      render.class();
+    }
+  }, {
     element: helper.e(".control-link-item-name-show"),
     path: "link.item.name.show",
     type: "checkbox",
@@ -1970,6 +1977,14 @@ var control = (function() {
       link.items();
     }
   }, {
+    element: helper.e(".control-link-item-border"),
+    path: "link.item.border",
+    type: "range",
+    func: function() {
+      render.class();
+      link.render.item.border();
+    }
+  }, {
     element: helper.e(".control-link-style-block"),
     path: "link.style",
     type: "radio",
@@ -1979,6 +1994,20 @@ var control = (function() {
   }, {
     element: helper.e(".control-link-style-list"),
     path: "link.style",
+    type: "radio",
+    func: function() {
+      render.class();
+    }
+  }, {
+    element: helper.e(".control-link-orientation-top"),
+    path: "link.orientation",
+    type: "radio",
+    func: function() {
+      render.class();
+    }
+  }, {
+    element: helper.e(".control-link-orientation-bottom"),
+    path: "link.orientation",
     type: "radio",
     func: function() {
       render.class();
@@ -2137,11 +2166,21 @@ var control = (function() {
       render.class();
     }
   }, {
-    element: helper.e(".control-background-color-custom-current"),
+    element: helper.e(".control-background-color-custom-current-picker"),
     path: "background.color.custom",
     type: "color",
     func: function() {
-      background.render.color();
+      background.render.color.custom();
+      background.render.input.hex();
+    }
+  }, {
+    element: helper.e(".control-background-color-custom-current-hex"),
+    path: "background.color.custom",
+    type: "text",
+    valueMod: ["hexTextString"],
+    func: function() {
+      background.render.color.custom();
+      background.render.input.picker();
     }
   }, {
     element: helper.e(".control-background-image-show"),
@@ -2189,7 +2228,7 @@ var control = (function() {
   }, {
     element: helper.e(".control-background-image-url"),
     path: "background.image.url",
-    type: "text",
+    type: "textarea",
     func: function() {
       background.render.image();
     }
@@ -2272,6 +2311,7 @@ var control = (function() {
       checkbox: "change",
       radio: "change",
       text: "input",
+      textarea: "input",
       number: "input",
       range: "input",
       color: "change",
@@ -2285,6 +2325,9 @@ var control = (function() {
         return object.element.value;
       },
       text: function(object) {
+        return object.element.value;
+      },
+      textarea: function(object) {
         return object.element.value;
       },
       number: function(object) {
@@ -2340,6 +2383,12 @@ var control = (function() {
           };
         },
         input: function(object, event) {
+          changeValue(object);
+          if (object.func) {
+            object.func();
+          };
+        },
+        textarea: function(object, event) {
           changeValue(object);
           if (object.func) {
             object.func();
@@ -2476,8 +2525,8 @@ var control = (function() {
       helper.removeClass(html, "is-link-area-alignment-left");
       helper.removeClass(html, "is-link-area-alignment-center");
       helper.removeClass(html, "is-link-area-alignment-right");
-      helper.removeClass(html, "is-link-name-show");
-      helper.removeClass(html, "is-link-display-show");
+      helper.removeClass(html, "is-link-item-name-show");
+      helper.removeClass(html, "is-link-display-item-show");
       helper.removeClass(html, "is-link-display-alignment-topleft");
       helper.removeClass(html, "is-link-display-alignment-topcenter");
       helper.removeClass(html, "is-link-display-alignment-topright");
@@ -2487,34 +2536,45 @@ var control = (function() {
       helper.removeClass(html, "is-link-display-alignment-bottomleft");
       helper.removeClass(html, "is-link-display-alignment-bottomcenter");
       helper.removeClass(html, "is-link-display-alignment-bottomright");
-      helper.removeClass(html, "is-link-url-show");
+      helper.removeClass(html, "is-link-item-url-show");
       helper.removeClass(html, "is-link-item-line-show");
+      helper.removeClass(html, "is-link-item-shadow-show");
       helper.removeClass(html, "is-link-item-hoverscale");
       helper.removeClass(html, "is-link-item-alignment-left");
       helper.removeClass(html, "is-link-item-alignment-center");
       helper.removeClass(html, "is-link-item-alignment-right");
+      helper.removeClass(html, "is-link-item-border");
       helper.removeClass(html, "is-link-style-list");
       helper.removeClass(html, "is-link-style-block");
+      helper.removeClass(html, "is-link-orientation-top");
+      helper.removeClass(html, "is-link-orientation-bottom");
       helper.removeClass(html, "is-link-edit");
       if (state.get().link.show) {
         helper.addClass(html, "is-link-show");
         helper.addClass(html, "is-link-area-alignment-" + state.get().link.area.alignment);
         helper.addClass(html, "is-link-display-alignment-" + state.get().link.item.display.alignment);
         helper.addClass(html, "is-link-style-" + state.get().link.style);
+        helper.addClass(html, "is-link-orientation-" + state.get().link.orientation);
         if (state.get().link.item.name.show) {
-          helper.addClass(html, "is-link-name-show");
+          helper.addClass(html, "is-link-item-name-show");
         };
         if (state.get().link.item.display.show) {
-          helper.addClass(html, "is-link-display-show");
+          helper.addClass(html, "is-link-display-item-show");
         };
         if (state.get().link.item.url.show) {
-          helper.addClass(html, "is-link-url-show");
+          helper.addClass(html, "is-link-item-url-show");
         };
         if (state.get().link.item.line.show) {
           helper.addClass(html, "is-link-item-line-show");
         };
+        if (state.get().link.item.shadow.show) {
+          helper.addClass(html, "is-link-item-shadow-show");
+        };
         if (state.get().link.item.hoverScale) {
           helper.addClass(html, "is-link-item-hoverscale");
+        };
+        if (state.get().link.item.border > 0) {
+          helper.addClass(html, "is-link-item-border");
         };
         if (state.get().link.edit) {
           helper.addClass(html, "is-link-edit");
@@ -2920,6 +2980,7 @@ var control = (function() {
       _disable.element(".control-link-item-order-namedisplay-helper", true);
       _disable.input(".control-link-item-url-show", true);
       _disable.input(".control-link-item-line-show", true);
+      _disable.input(".control-link-item-shadow-show", true);
       _disable.input(".control-link-item-hoverscale", true);
       _disable.element(".control-link-item-display-alignment-grid", true);
       _disable.element(".control-link-item-display-alignment-label", true);
@@ -2937,6 +2998,9 @@ var control = (function() {
       _disable.element(".control-link-style-block-helper", true);
       _disable.input(".control-link-style-list", true);
       _disable.element(".control-link-style-list-helper", true);
+      _disable.input(".control-link-orientation-top", true);
+      _disable.input(".control-link-orientation-bottom", true);
+      _disable.element(".control-link-orientation-helper", true);
       _disable.input(".control-link-sort-name", true);
       _disable.input(".control-link-sort-letter", true);
       _disable.input(".control-link-sort-icon", true);
@@ -2963,12 +3027,16 @@ var control = (function() {
         _disable.input(".control-link-item-name-show", false);
         _disable.input(".control-link-item-url-show", false);
         _disable.input(".control-link-item-line-show", false);
+        _disable.input(".control-link-item-shadow-show", false);
         _disable.input(".control-link-item-hoverscale", false);
         _disable.input(".control-link-newtab", false);
         _disable.input(".control-link-style-block", false);
         _disable.element(".control-link-style-block-helper", false);
         _disable.input(".control-link-style-list", false);
         _disable.element(".control-link-style-list-helper", false);
+        _disable.input(".control-link-orientation-top", false);
+        _disable.input(".control-link-orientation-bottom", false);
+        _disable.element(".control-link-orientation-helper", false);
         _disable.input(".control-link-sort-name", false);
         _disable.input(".control-link-sort-letter", false);
         _disable.input(".control-link-sort-icon", false);
@@ -3071,10 +3139,12 @@ var control = (function() {
         _disable.element(".control-background-image-url-helper", true);
       };
       if (state.get().background.color.by == "theme") {
-        _disable.input(".control-background-color-custom-current", true);
+        _disable.input(".control-background-color-custom-current-picker", true);
+        _disable.input(".control-background-color-custom-current-hex", true);
         _disable.element(".control-background-color-theme-helper", true);
       } else if (state.get().background.color.by == "custom") {
-        _disable.input(".control-background-color-custom-current", false);
+        _disable.input(".control-background-color-custom-current-picker", false);
+        _disable.input(".control-background-color-custom-current-hex", false);
         _disable.element(".control-background-color-theme-helper", false);
       };
     };
@@ -3122,6 +3192,18 @@ var control = (function() {
         };
         object.element.value = newValue;
       },
+      textarea: function(object) {
+        var newValue = helper.getObject({
+          object: state.get(),
+          path: object.path
+        });
+        if (object.valueMod) {
+          object.valueMod.slice().reverse().forEach(function(arrayItem, index) {
+            newValue = valueMod[arrayItem](newValue, object.element);
+          });
+        };
+        object.element.value = newValue;
+      },
       number: function(object) {
         object.element.value = helper.getObject({
           object: state.get(),
@@ -3147,7 +3229,7 @@ var control = (function() {
         }));
       }
     };
-    var supportedType = ["checkbox", "radio", "text", "number", "range", "color"];
+    var supportedType = ["checkbox", "radio", "text", "number", "range", "color", "textarea"];
     _allControl.forEach(function(arrayItem, index) {
       if (supportedType.includes(arrayItem.element.type)) {
         setValue[arrayItem.type](arrayItem);
